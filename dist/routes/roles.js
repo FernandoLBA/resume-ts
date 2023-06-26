@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.router = void 0;
+const express_1 = require("express");
+const controllers_1 = require("../controllers");
+const middlewares_1 = require("../middlewares");
+// import { secretMiddleware } from "../middlewares";
+const router = (0, express_1.Router)();
+exports.router = router;
+// acá colocamos como middleWare el controller;
+router.get("/", middlewares_1.sessionMiddleware, controllers_1.getRoles);
+router.get("/:id", middlewares_1.sessionMiddleware, controllers_1.getRole);
+router.get("/:id/users", middlewares_1.sessionMiddleware, (0, middlewares_1.roleChecker)(["admin"]), controllers_1.getUsersByRole);
+router.post("/", middlewares_1.sessionMiddleware, (0, middlewares_1.roleChecker)(["admin"]), controllers_1.createRole);
+router.put("/:id", middlewares_1.sessionMiddleware, (0, middlewares_1.roleChecker)(["admin"]), controllers_1.updateRole);
+router.delete("/:id", middlewares_1.sessionMiddleware, (0, middlewares_1.roleChecker)(["admin"]), controllers_1.deleteRole);
