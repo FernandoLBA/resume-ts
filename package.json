@@ -5,10 +5,10 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon ./src/app.ts",
-    "start": "node dist/app.js",
-    "main": "node dist/app.js",
+    "start": "node ./dist/app.js",
+    "main": "node ./dist/app.js",
     "build": "tsc",
-    "start:dev": "concurrently -k \"tsc -w\" \"nodemon dist/app.js\""
+    "start:dev": "concurrently -k \"tsc -w\" \"nodemon ./dist/app.js\""
   },
   "keywords": [],
   "author": "@FernandoLBA",

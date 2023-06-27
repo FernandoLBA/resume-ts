@@ -28,6 +28,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
 const express_1 = require("express");
+require("dotenv/config");
 const fs_1 = __importDefault(require("fs"));
 const router = (0, express_1.Router)();
 exports.router = router;
@@ -40,18 +41,27 @@ const allRoutes = fs_1.default.readdirSync(ROUTER_PATH);
  * @returns
  */
 function nameWithoutExtension(filename) {
-    return filename.replace(".ts", "");
+    return process.env.NODE_ENV === "development"
+        ? filename.replace(".ts", "")
+        : filename.replace(".js", "");
 }
 // asigna las rutas dinámicamente
 allRoutes.forEach((routeFile) => {
-    var _a;
+    var _a, _b;
     const routeName = nameWithoutExtension(routeFile);
     // Crea rutas para todos los archivos menos para index.ts
-    if (routeFile !== "index.ts") {
+    if (process.env.NODE_ENV === "development" && routeFile !== "index.ts") {
         // la imprtación retorna una promesa
         (_a = `./${routeFile}`, Promise.resolve().then(() => __importStar(require(_a)))).then((moduleRouter) => {
             console.log(`Loading route: /${routeName}`);
             // Cada módulo retorna un objeto con la propiedad router, por eso colocamos moduleRouter.router
+            router.use(`/${routeName}`, moduleRouter.router);
+        });
+    }
+    else if (process.env.NODE_ENV === "production" &&
+        routeFile !== "index.js") {
+        (_b = `./${routeFile}`, Promise.resolve().then(() => __importStar(require(_b)))).then((moduleRouter) => {
+            console.log(`Loading route: /${routeName}`);
             router.use(`/${routeName}`, moduleRouter.router);
         });
     }

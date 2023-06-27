@@ -1,5 +1,5 @@
 import cors from "cors";
-import express, { Application } from "express";
+import express, { Application, Request, Response } from "express";
 import {
   Certification,
   Education,
@@ -24,7 +24,7 @@ export class Server {
 
   constructor() {
     this.app = express();
-    this.PORT = process.env.PORT || "5000";
+    this.PORT = process.env.PORT || "8080";
     this.listen();
     this.middleWares();
     this.router();
@@ -33,7 +33,7 @@ export class Server {
   }
 
   async listen() {
-    await sequelize.sync({ force: true }).then(async () => {
+    await sequelize.sync({ force: false }).then(async () => {
       await this.insertDefaultData();
 
       console.log("Data loaded");

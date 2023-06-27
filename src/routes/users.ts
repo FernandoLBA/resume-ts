@@ -1,10 +1,5 @@
 import { Router } from "express";
-import {
-  deleteUser,
-  getUser,
-  getUsers,
-  updateUser,
-} from "../controllers";
+import { deleteUser, getUser, getUsers, updateUser } from "../controllers";
 import { roleChecker, sessionMiddleware } from "../middlewares";
 
 const router = Router();

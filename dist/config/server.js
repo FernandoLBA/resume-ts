@@ -23,7 +23,7 @@ const morgan_body_1 = __importDefault(require("morgan-body"));
 class Server {
     constructor() {
         this.app = (0, express_1.default)();
-        this.PORT = process.env.PORT || "5000";
+        this.PORT = process.env.PORT || "8080";
         this.listen();
         this.middleWares();
         this.router();
@@ -32,7 +32,7 @@ class Server {
     }
     listen() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield my_sql_1.default.sync({ force: true }).then(() => __awaiter(this, void 0, void 0, function* () {
+            yield my_sql_1.default.sync({ force: false }).then(() => __awaiter(this, void 0, void 0, function* () {
                 yield this.insertDefaultData();
                 console.log("Data loaded");
             }));
